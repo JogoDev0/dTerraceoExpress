@@ -9,6 +9,20 @@ const getAll = () => {
     });
 };
 
+const getById = (pId) => {
+    return new Promise((resolve, reject) => {
+        db.query('SELECT * FROM terrazas WHERE id_terraza = ?', [pId], (err, rows) => {
+            if (err) {
+                return reject(err);
+            }
+            if (rows.length !== 1) {
+                resolve(null);
+            }
+            resolve(rows[0]);
+        });
+    });
+};
+
 const getByName = (pName) => {
     return new Promise((resolve, reject) => {
         db.query('SELECT * FROM terrazas WHERE rotulo LIKE ? ? ?', ['%', pName, '%'], (err, rows) => {
@@ -31,7 +45,18 @@ const getBarrios = () => {
     });
 };
 
+const getByBarrio = (pBarrio) => {
+    return new Promise((resolve, reject) => {
+        db.query('SELECT * FROM terrazas WHERE desc_barrio_local = ?', [pBarrio], (err, rows) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+};
 
 
 
-module.exports = { getAll, getByName, getBarrios };
+
+module.exports = { getAll, getById, getByName, getBarrios, getByBarrio };
