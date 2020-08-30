@@ -29,7 +29,7 @@ router.get('/name/:terrazaName', async (req, res) => {
         if (rows) {
             for (const row of rows) {
                 // Puede haber más de una terraza con el mismo nombre, así que se añade un nuevo campo a mostrar en eñ buscador antes de enviar la respuesta, con el nombre de la terraza y el nombre de la calle:
-                row.mostrarEnBusqueda = `${row.rotulo} - ${row.DESC_NOMBRE}`;
+                row.mostrarEnBusqueda = `${row.rotulo} - ${row.desc_nombre}`;
             }
             res.json(rows);
         } else {
