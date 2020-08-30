@@ -17,6 +17,8 @@ router.post('/', async (req, res) => {
         }
         // Se filtra el resultado para que aparezcan solo las terrazas en un radio menor al valor de la constante CERCA_DE_MI
         result = rows.filter(row => row.distancia <= CERCA_DE_MI);
+        // Se ordena el resultado por distancia
+        result.sort(ordenarResultado('distancia'));
         res.json(result);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -69,14 +71,16 @@ router.get('/id/:terrazaId', async (req, res) => {
     }
 });
 
-router.get('/barrio/:terrazaBarrio', async (req, res) => {
+router.post('/barrio/:terrazaBarrio', async (req, res) => {
     try {
         const rows = await getByBarrio(req.params.terrazaBarrio);
-
+        const posicionActual = req.body;
         if (rows) {
             for (const row of rows) {
                 addStreetView(row);
+                row.distancia = calcularDistancia(posicionActual, row);
             }
+            rows.sort(ordenarResultado('distancia'));
             res.json(rows);
         } else {
             res.status(404).json({ error: 'No se han encontrado terrazas con ese nombre' });
@@ -142,5 +146,28 @@ const calcularDistancia = (posicionActual, row) => {
     }
 };
 
+// Método para ordenar los valores del resultado
+function ordenarResultado(key, orden = 'asc') {
+    return function innerSort(a, b) {
+        if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+            return 0;
+        }
+
+        const varA = (typeof a[key] === 'string')
+            ? a[key].toUpperCase() : a[key];
+        const varB = (typeof b[key] === 'string')
+            ? b[key].toUpperCase() : b[key];
+
+        let comparacion = 0;
+        if (varA > varB) {
+            comparacion = 1;
+        } else if (varA < varB) {
+            comparacion = -1;
+        }
+        return (
+            (orden === 'desc') ? (comparacion * -1) : comparacion
+        );
+    };
+}
 
 module.exports = router;
