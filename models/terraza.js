@@ -56,7 +56,18 @@ const getByBarrio = (pBarrio) => {
     });
 };
 
+const getByCalle = (pCalle) => {
+    return new Promise((resolve, reject) => {
+        db.query('SELECT * FROM terrazas WHERE desc_nombre LIKE ? ? ? ORDER BY desc_nombre', ['%', pCalle, '%'], (err, rows) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+};
 
 
 
-module.exports = { getAll, getById, getByName, getBarrios, getByBarrio };
+
+module.exports = { getAll, getById, getByName, getBarrios, getByBarrio, getByCalle };
