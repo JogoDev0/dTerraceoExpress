@@ -1,13 +1,25 @@
 const router = require('express').Router();
 const { getAll, getByName, getById, getBarrios, getByBarrio, getByCalle } = require('../../models/terraza');
 const utm = require('utm');
+const geo = require('node-geo-distance');
+const CERCA_DE_MI = 250;
 
-router.get('/', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
+        const posicionActual = req.body;
+        console.log(posicionActual);
         const rows = await getAll();
-        res.json(rows);
+        for (const row of rows) {
+            // Se transforman coordenadas y se añade streetview
+            addStreetView(row);
+            // Se añade distancia
+            row.distancia = calcularDistancia(posicionActual, row);
+        }
+        // Se filtra el resultado para que aparezcan solo las terrazas en un radio menor al valor de la constante CERCA_DE_MI
+        result = rows.filter(row => row.distancia <= CERCA_DE_MI);
+        res.json(result);
     } catch (err) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: err.message });
     }
 
 });
@@ -17,7 +29,7 @@ router.get('/barrios', async (req, res) => {
         const rows = await getBarrios();
         res.json(rows);
     } catch (err) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: err.message });
     }
 
 });
@@ -36,8 +48,8 @@ router.get('/name/:terrazaName', async (req, res) => {
             res.status(404).json({ error: 'No se han encontrado terrazas con ese nombre' });
         }
 
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 });
 
@@ -52,8 +64,8 @@ router.get('/id/:terrazaId', async (req, res) => {
             res.status(404).json({ error: 'No se han encontrado terrazas con ese nombre' });
         }
 
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 });
 
@@ -70,8 +82,8 @@ router.get('/barrio/:terrazaBarrio', async (req, res) => {
             res.status(404).json({ error: 'No se han encontrado terrazas con ese nombre' });
         }
 
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 });
 
@@ -88,10 +100,11 @@ router.get('/calle/:terrazaCalle', async (req, res) => {
             res.status(404).json({ error: 'No se han encontrado terrazas con ese nombre' });
         }
 
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 });
+
 
 // HELPERS
 
@@ -109,7 +122,25 @@ const addStreetView = (row) => {
     else {
         row.streetView = '../../assets/no-imagen.jpg';
     }
-}
+};
+
+// Método para calcular la distancia desde la posición actual hasta una terraza:
+const calcularDistancia = (posicionActual, row) => {
+
+    if (row.coordenada_x_local !== '0' && row.coordenada_y_local !== '0') {
+        posicionTerraza = {
+            latitude: row.coordenada_x_local,
+            longitude: row.coordenada_y_local
+        }
+        // const distancia = geo.haversine(posicionActual, posicionTerraza, function (dist) {
+        //     return dist;
+        // });
+        // console.log(posicionActual);
+        // console.log(posicionTerraza);
+        const distancia = parseInt(geo.haversineSync(posicionActual, posicionTerraza));
+        return distancia;
+    }
+};
 
 
 module.exports = router;

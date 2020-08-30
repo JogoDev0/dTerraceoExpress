@@ -1,0 +1,9 @@
+POST http://localhost:3000/api/terrazas
+Content-Type: application/json
+
+{
+    "latitude":40.401574880819915,
+    "longitude":-3.6909735773410772
+}
+
+###
