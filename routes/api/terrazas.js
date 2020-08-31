@@ -91,14 +91,16 @@ router.post('/barrio/:terrazaBarrio', async (req, res) => {
     }
 });
 
-router.get('/calle/:terrazaCalle', async (req, res) => {
+router.post('/calle/:terrazaCalle', async (req, res) => {
     try {
         const rows = await getByCalle(req.params.terrazaCalle);
-
+        const posicionActual = req.body;
         if (rows) {
             for (const row of rows) {
                 addStreetView(row);
+                row.distancia = calcularDistancia(posicionActual, row);
             }
+            rows.sort(ordenarResultado('desc_nombre'));
             res.json(rows);
         } else {
             res.status(404).json({ error: 'No se han encontrado terrazas con ese nombre' });
