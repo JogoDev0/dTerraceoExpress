@@ -55,12 +55,14 @@ router.get('/name/:terrazaName', async (req, res) => {
     }
 });
 
-router.get('/id/:terrazaId', async (req, res) => {
+router.post('/id/:terrazaId', async (req, res) => {
     try {
         const row = await getById(req.params.terrazaId);
-
+        const posicionActual = req.body;
         if (row) {
             addStreetView(row);
+            row.distancia = calcularDistancia(posicionActual, row);
+            console.log(row);
             res.json(row);
         } else {
             res.status(404).json({ error: 'No se han encontrado terrazas con ese nombre' });

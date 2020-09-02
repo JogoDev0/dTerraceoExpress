@@ -15,3 +15,6 @@ Content-Type: application/json
     "latitude":40.401574880819915,
     "longitude":-3.6909735773410772
 }
+
+###
+GET http://localhost:3000/api/terrazas/id/7
