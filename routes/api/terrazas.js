@@ -125,12 +125,18 @@ const addStreetView = (row) => {
         row.coordenada_x_local = cords.latitude;
         row.coordenada_y_local = cords.longitude;
 
-        row.streetView = `https://maps.googleapis.com/maps/api/streetview?size=640x640&location=${cords.latitude},${cords.longitude}&fov=90&source=outdoor&pitch=0&key=${process.env.GOOGLE_API_KEY}`;
+        row.streetView = `https://maps.googleapis.com/maps/api/streetview?size=640x400&location=${cords.latitude},${cords.longitude}&fov=90&source=outdoor&pitch=0&key=${process.env.GOOGLE_API_KEY}`;
     }
     else {
         row.streetView = '../../assets/no-imagen.jpg';
     }
 };
+
+// const addGooglePlaces = (row) {
+//     return new Promise((resolve, reject) => {
+
+//     });
+// };
 
 // Método para calcular la distancia desde la posición actual hasta una terraza:
 const calcularDistancia = (posicionActual, row) => {
