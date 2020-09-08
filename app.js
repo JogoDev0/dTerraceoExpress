@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(cors(config.application.cors.server));
+app.use(cors());
 
 // RUTAS
 app.use('/api', apiRouter);

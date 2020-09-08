@@ -3,6 +3,8 @@ const { getAll, getByName, getById, getBarrios, getByBarrio, getByCalle } = requ
 const utm = require('utm');
 const geo = require('node-geo-distance');
 const CERCA_DE_MI = 250;
+const axios = require('axios');
+const { log } = require('debug');
 
 router.post('/', async (req, res) => {
     try {
@@ -62,7 +64,7 @@ router.post('/id/:terrazaId', async (req, res) => {
         if (row) {
             addStreetView(row);
             row.distancia = calcularDistancia(posicionActual, row);
-            console.log(row);
+            row.googlePlacesData = await getGooglePlacesData(row);
             res.json(row);
         } else {
             res.status(404).json({ error: 'No se han encontrado terrazas con ese nombre' });
@@ -132,11 +134,52 @@ const addStreetView = (row) => {
     }
 };
 
-// const addGooglePlaces = (row) {
-//     return new Promise((resolve, reject) => {
+// Método para obtener información de una terraza desde la api de google places.
+const getGooglePlacesData = async (row) => {
+    const placeId = await getPlaceId(row);
+    if (placeId) {
+        const urlGooelPlaces = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,adr_address,business_status,rating,formatted_phone_number,photos&key=${process.env.GOOGLE_API_KEY}`;
+        const { data } = await axios.get(urlGooelPlaces);
 
-//     });
-// };
+        const tlf = data.result.formatted_phone_number;
+        const fotos = data.result.photos;
+        const arrImg = [];
+        const googlePlacesdata = {};
+
+        if (tlf) {
+            console.log('TLF:', tlf);
+            googlePlacesdata.telefono = tlf;
+        }
+        if (fotos) {
+            for (const foto of fotos) {
+                const img = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1600&photoreference=${foto.photo_reference}&key=${process.env.GOOGLE_API_KEY}`;
+                arrImg.push(img);
+            }
+            console.log('FOTOS:', arrImg);
+            googlePlacesdata.imagenes = arrImg;
+        }
+        return googlePlacesdata;
+    } else {
+        return '';
+    }
+
+};
+
+// Método para obtener el place_id de un sitio, que es necesario para atacar el api de google places.
+const getPlaceId = async (row) => {
+    const direccion = `${getCleanedString(row.rotulo.trim())},${getCleanedString(row.desc_clase.trim())} ${getCleanedString(row.desc_nombre.trim())}, Madrid`;
+    console.log('direccion: ', direccion);
+    const urlPlaceId = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${direccion}&inputtype=textquery&fields=place_id&key=${process.env.GOOGLE_API_KEY}`;
+    const { data } = await axios.get(urlPlaceId);
+    const placeId = data.candidates[0].place_id;
+    if (placeId) {
+        console.log('PLACEID: ', placeId);
+        return placeId;
+    } else {
+        return null;
+    }
+};
+
 
 // Método para calcular la distancia desde la posición actual hasta una terraza:
 const calcularDistancia = (posicionActual, row) => {
@@ -180,4 +223,28 @@ function ordenarResultado(key, orden = 'asc') {
     };
 }
 
+// Método para limpiar una cadena de texto de caracteres que nos pueden afectar al formar una url para atacar al api de Google Places
+function getCleanedString(cadena) {
+
+    cadena = cadena.toLowerCase();
+
+    cadena = cadena.replace(/á/gi, "a");
+    cadena = cadena.replace(/é/gi, "e");
+    cadena = cadena.replace(/í/gi, "i");
+    cadena = cadena.replace(/ó/gi, "o");
+    cadena = cadena.replace(/ú/gi, "u");
+    cadena = cadena.replace(/ä/gi, "a");
+    cadena = cadena.replace(/ë/gi, "e");
+    cadena = cadena.replace(/ï/gi, "i");
+    cadena = cadena.replace(/ö/gi, "o");
+    cadena = cadena.replace(/ü/gi, "u");
+    cadena = cadena.replace(/ñ/gi, "n");
+    cadena = cadena.replace(/\./gi, "");
+    cadena = cadena.replace(/\,/gi, "");
+    cadena = cadena.replace(/\ /gi, "");
+
+    return cadena;
+}
+
 module.exports = router;
+
