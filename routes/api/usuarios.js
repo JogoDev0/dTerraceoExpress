@@ -13,7 +13,7 @@ router.post('/registro', [
     check('email')
         .exists().withMessage('El campo email es obligatorio.')
         .notEmpty().withMessage('El campo email no puede estar vacío.')
-        .isEmail().withMessage('El campo email debe de terner una estructura correcta.')
+        .isEmail().withMessage('El campo email debe de tener una estructura correcta.')
         .custom(email => {
             // Al aplicarle una promesa, el resolve y el reject ejercen como true o false.
             return new Promise((resolve, reject) => {
