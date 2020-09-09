@@ -1,3 +1,6 @@
+###
+### TERRAZAS ###
+###
 POST http://localhost:3000/api/terrazas
 Content-Type: application/json
 
@@ -16,8 +19,39 @@ Content-Type: application/json
     "longitude":-3.6909735773410772
 }
 
-###
-POST http://localhost:3000/api/terrazas/id/7
 
 ###
-POST http://localhost:3000/api/terrazas/id/2306
+### USUARIOS ###
+###
+
+###
+# Registro
+POST http://localhost:3000/api/usuarios/registro
+Content-Type: application/json
+
+ {
+    "username": "pistachu",
+    "email": "ygomezma@gmail.com",
+    "password": "12345"
+  }
+
+
+###
+#Login
+POST http://localhost:3000/api/usuarios/login
+Content-Type: application/json
+
+ {
+    "email": "ygomezma@gmail.com",
+    "password": "12345"
+  }
+
+###
+#GetByEmail
+GET http://localhost:3000/api/usuarios
+Content-Type: application/json
+
+ {
+    "email": "ygomezma@gmail.com"
+ }
+
