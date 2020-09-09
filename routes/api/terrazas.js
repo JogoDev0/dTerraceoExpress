@@ -227,7 +227,13 @@ function ordenarResultado(key, orden = 'asc') {
 function getCleanedString(cadena) {
 
     cadena = cadena.toLowerCase();
-
+    if (cadena.includes(',')) {
+        cadena = cadena.replace(/\,/gi, "");
+        cadena = cadena.replace(/\ /gi, "");
+    }
+    // if (espacios === "sinEspacios") {
+    //     cadena = cadena.replace(/\ /gi, "");
+    // }
     cadena = cadena.replace(/á/gi, "a");
     cadena = cadena.replace(/é/gi, "e");
     cadena = cadena.replace(/í/gi, "i");
@@ -240,8 +246,6 @@ function getCleanedString(cadena) {
     cadena = cadena.replace(/ü/gi, "u");
     cadena = cadena.replace(/ñ/gi, "n");
     cadena = cadena.replace(/\./gi, "");
-    cadena = cadena.replace(/\,/gi, "");
-    cadena = cadena.replace(/\ /gi, "");
 
     return cadena;
 }

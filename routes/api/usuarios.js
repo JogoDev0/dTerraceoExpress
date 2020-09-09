@@ -65,7 +65,7 @@ router.post('/login', [
     if (usuario) {
         const iguales = bcrypt.compareSync(req.body.password, usuario.password)
         if (iguales) {
-            res.json({ SUCCESS: 'El login ha sido correcto.', token: createToken(usuario) });
+            res.json({ SUCCESS: 'El login ha sido correcto.', id_usuario: usuario.id_usuario, token: createToken(usuario) });
         } else {
             res.json({ ERROR: 'El email/password son incorrectos.' });
         }
