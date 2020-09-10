@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 
-const { create, getByEmail } = require('../../models/usuario');
+const { getByEmail } = require('../../models/usuario');
 
 router.post('/registro', [
     check('username')
@@ -41,7 +41,7 @@ router.post('/registro', [
             await create(req.body);
             res.json({ SUCCESS: 'Usuario creado correctamente' });
         } catch (err) {
-            res.status(500).json({ ERROR: err.message });
+            res.status(500).json({ msg: err.message });
         }
     };
 });
@@ -58,6 +58,7 @@ router.post('/login', [
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+        console.log(errors);
         return res.json(errors.array());
     }
 
@@ -67,12 +68,13 @@ router.post('/login', [
         if (iguales) {
             res.json({ SUCCESS: 'El login ha sido correcto.', id_usuario: usuario.id_usuario, token: createToken(usuario) });
         } else {
-            res.json({ ERROR: 'El email/password son incorrectos.' });
+            res.json([{ msg: 'El email/password son incorrectos.' }]);
         }
     } else {
-        res.json({ ERROR: 'El email/password son incorrectos.' });
+        res.json([{ msg: 'El email/password son incorrectos.' }]);
     }
 });
+
 
 router.get('/', async (req, res) => {
     try {
@@ -88,15 +90,16 @@ router.get('/', async (req, res) => {
     }
 });
 
+
 /*
 *HELPERS
 */
 
 const createToken = (pUser) => {
     const payload = {
-        userId: pUser.id,
+        userId: pUser.id_usuario,
         createdAt: moment().unix(),
-        expiredAt: moment().add(1, 'days').unix()
+        expiredAt: moment().add(10, 'days').unix()
     }
     return jwt.sign(payload, process.env.SECRET_KEY);
 };
