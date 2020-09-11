@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 
-const { getByEmail } = require('../../models/usuario');
+const { create, getByEmail } = require('../../models/usuario');
 
 router.post('/registro', [
     check('username')
@@ -13,7 +13,7 @@ router.post('/registro', [
     check('email')
         .exists().withMessage('El campo email es obligatorio.')
         .notEmpty().withMessage('El campo email no puede estar vacío.')
-        .isEmail().withMessage('El campo email debe de tener una estructura correcta.')
+        .isEmail().withMessage('El campo email debe tener una estructura correcta.')
         .custom(email => {
             // Al aplicarle una promesa, el resolve y el reject ejercen como true o false.
             return new Promise((resolve, reject) => {
@@ -29,7 +29,7 @@ router.post('/registro', [
     check('password')
         .exists().withMessage('El campo password es obligatorio.')
         .notEmpty().withMessage('El campo password no puede estar vacío.')
-        .isLength({ min: 5 }).withMessage('La password debe de tener una longitud mínima de 5 caracteres.')
+        .isLength({ min: 5 }).withMessage('La password debe tener una longitud mínima de 5 caracteres.')
 ], async (req, res) => {
 
     const errors = validationResult(req);
