@@ -167,7 +167,7 @@ const getGooglePlacesData = async (row) => {
 
 // Método para obtener el place_id de un sitio, que es necesario para atacar el api de google places.
 const getPlaceId = async (row) => {
-    const direccion = `${getCleanedString(row.rotulo.trim())},${getCleanedString(row.desc_clase.trim())} ${getCleanedString(row.desc_nombre.trim())}, Madrid`;
+    const direccion = `${getCleanedString(row.rotulo.trim())},${getCleanedString(row.desc_clase.trim())} ${getCleanedString(row.desc_nombre.trim())}`;
     console.log('direccion: ', direccion);
     const urlPlaceId = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${direccion}&inputtype=textquery&fields=place_id&key=${process.env.GOOGLE_API_KEY}`;
     const { data } = await axios.get(urlPlaceId);
@@ -246,6 +246,8 @@ function getCleanedString(cadena) {
     cadena = cadena.replace(/ü/gi, "u");
     cadena = cadena.replace(/ñ/gi, "n");
     cadena = cadena.replace(/\./gi, "");
+    cadena = cadena.replace(/\'/gi, "");
+    cadena = cadena.replace(/\´/gi, "");
 
     return cadena;
 }
