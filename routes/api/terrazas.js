@@ -4,6 +4,7 @@ const utm = require('utm');
 const geo = require('node-geo-distance');
 const CERCA_DE_MI = 250;
 const axios = require('axios');
+const { log } = require('debug');
 
 router.post('/', async (req, res) => {
     try {
@@ -143,21 +144,29 @@ const getGooglePlacesData = async (row) => {
         const tlf = data.result.formatted_phone_number;
         const fotos = data.result.photos;
         const arrImg = [];
-        const googlePlacesdata = {};
+        const googlePlacesData = {};
 
         if (tlf) {
             console.log('TLF:', tlf);
-            googlePlacesdata.telefono = tlf;
+            googlePlacesData.telefono = tlf;
         }
         if (fotos) {
             for (const foto of fotos) {
                 const img = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1600&photoreference=${foto.photo_reference}&key=${process.env.GOOGLE_API_KEY}`;
                 arrImg.push(img);
             }
-            console.log('FOTOS:', arrImg);
-            googlePlacesdata.imagenes = arrImg;
+
+        } else {
+            const img = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1200px-No_image_available.svg.png';
+            arrImg.push(img);
         }
-        return googlePlacesdata;
+
+        console.log('FOTOS:', arrImg);
+        googlePlacesData.imagenes = arrImg;
+
+        console.log('googlePlacesData', googlePlacesData);
+
+        return googlePlacesData;
     } else {
         return '';
     }

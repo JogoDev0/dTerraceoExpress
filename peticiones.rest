@@ -71,7 +71,7 @@ Content-Type: application/json
 
  {
     "idUsuario": "63",
-    "idTerraza": "32"
+    "idTerraza": "33"
   }
 
 ###
@@ -81,5 +81,5 @@ Content-Type: application/json
 
  {
     "idUsuario": "63",
-    "idTerraza": "32"
+    "idTerraza": "33"
   }

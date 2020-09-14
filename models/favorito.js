@@ -1,6 +1,6 @@
 const getByUserId = (idUsuario) => {
     return new Promise((resolve, reject) => {
-        db.query('SELECT * FROM favoritos WHERE fk_usuario = ?', [idUsuario], (err, rows) => {
+        db.query('SELECT fk_terraza FROM favoritos WHERE fk_usuario = ?', [idUsuario], (err, rows) => {
             if (err) {
                 return reject(err);
             }

@@ -4,8 +4,6 @@ const { getByUserId, create, remove } = require('../../models/favorito');
 router.get('/:idUsuario', async (req, res) => {
     try {
         const rows = await getByUserId(req.params.idUsuario);
-        console.log(req.params.idUsuario);
-
         if (rows) {
             res.json(rows);
         } else {
