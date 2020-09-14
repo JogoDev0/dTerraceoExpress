@@ -57,7 +57,7 @@ Content-Type: application/json
 ###
 
 ###
-### USUARIOS ###
+### FAVORITOS ###
 ###
 
 ###
@@ -83,3 +83,16 @@ Content-Type: application/json
     "idUsuario": "63",
     "idTerraza": "33"
   }
+
+
+###
+### PUNTUACIONES ###
+###
+
+###
+# getByUserId
+GET http://localhost:3000/api/puntuaciones/usuario/64
+
+###
+# getByUserId
+GET http://localhost:3000/api/puntuaciones/terraza/7
