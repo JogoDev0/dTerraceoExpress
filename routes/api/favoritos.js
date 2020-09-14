@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { getByUserId, create, remove } = require('../../models/favorito');
+const { getByUserId, getByUserAndTerraza, create, remove } = require('../../models/favorito');
 
 router.get('/:idUsuario', async (req, res) => {
     try {
@@ -15,7 +15,23 @@ router.get('/:idUsuario', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/getAll', async (req, res) => {
+    try {
+        const rows = await getByUserAndTerraza(req.body.idUsuario, req.body.idTerraza);
+        console.log('rows', rows);
+        console.log(rows.length);
+        if (rows.length === 0) {
+            res.json({ NONE: 'No existe favorito con esa dupla usuario/terraza', BOOLEAN: false });
+        } else {
+            res.json({ EXISTE: 'Ya existe favorito con esa dupla usuario/terraza', BOOLEAN: true });
+        }
+
+    } catch (err) {
+        res.status(500).json({ ERROR: err.message });
+    }
+});
+
+router.post('/create', async (req, res) => {
     try {
         await create(req.body.idUsuario, req.body.idTerraza);
         res.json({ SUCCESS: 'Favorito dado de alta correctamente' });
@@ -24,7 +40,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.delete('/', async (req, res) => {
+router.post('/delete', async (req, res) => {
     try {
         await remove(req.body.idUsuario, req.body.idTerraza);
         res.json({ SUCCESS: 'Favorito dado de baja correctamente' });

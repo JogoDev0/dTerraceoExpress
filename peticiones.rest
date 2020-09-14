@@ -57,12 +57,22 @@ Content-Type: application/json
 ###
 
 ###
-### USUARIOS ###
+### FAVORITOS ###
 ###
 
 ###
 # getByUserId
 GET http://localhost:3000/api/favoritos/1
+
+###
+# getByUserAndTerraza
+POST http://localhost:3000/api/favoritos/getAll
+Content-Type: application/json
+
+ {
+    "idUsuario": "63",
+    "idTerraza": "32"
+  }
 
 ###
 # create

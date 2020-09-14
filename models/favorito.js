@@ -9,9 +9,20 @@ const getByUserId = (idUsuario) => {
     });
 };
 
+const getByUserAndTerraza = (idUsuario, idTerraza) => {
+    return new Promise((resolve, reject) => {
+        db.query('SELECT * FROM favoritos WHERE fk_usuario = ? AND fk_terraza = ?', [idUsuario, idTerraza], (err, rows) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+};
+
 const create = (idUsuario, idTerraza) => {
     return new Promise((resolve, reject) => {
-        db.query('INSERT INTO dterraceodb.favoritos (fk_usuario, fk_terraza) VALUES (?,?)', [idUsuario, idTerraza], (err, result) => {
+        db.query('INSERT INTO favoritos (fk_usuario, fk_terraza) VALUES (?,?)', [idUsuario, idTerraza], (err, result) => {
             if (err) {
                 return reject(err);
             }
@@ -31,4 +42,4 @@ const remove = (idUsuario, idTerraza) => {
     });
 };
 
-module.exports = { getByUserId, create, remove }
+module.exports = { getByUserId, getByUserAndTerraza, create, remove }
