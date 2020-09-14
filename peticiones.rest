@@ -56,3 +56,30 @@ Content-Type: application/json
 
 ###
 
+###
+### USUARIOS ###
+###
+
+###
+# getByUserId
+GET http://localhost:3000/api/favoritos/1
+
+###
+# create
+POST http://localhost:3000/api/favoritos
+Content-Type: application/json
+
+ {
+    "idUsuario": "63",
+    "idTerraza": "32"
+  }
+
+###
+# delete
+DELETE  http://localhost:3000/api/favoritos
+Content-Type: application/json
+
+ {
+    "idUsuario": "63",
+    "idTerraza": "32"
+  }

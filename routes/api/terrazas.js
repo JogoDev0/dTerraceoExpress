@@ -4,7 +4,6 @@ const utm = require('utm');
 const geo = require('node-geo-distance');
 const CERCA_DE_MI = 250;
 const axios = require('axios');
-const { log } = require('debug');
 
 router.post('/', async (req, res) => {
     try {
