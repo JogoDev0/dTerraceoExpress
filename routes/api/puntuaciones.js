@@ -5,8 +5,8 @@ const { getByUserId, getByTerrazaId } = require('../../models/puntuacion');
 router.get('/usuario/:idUsuario', async (req, res) => {
     try {
         const rows = await getByUserId(req.params.idUsuario);
-        if (rows) {
-            res.json({ rows })
+        if (rows.length !== 0) {
+            res.json(rows)
         } else {
             res.status(400).json({ ERROR: 'Este usuario no ha puntuado ninguna terraza' })
         }
@@ -19,8 +19,8 @@ router.get('/usuario/:idUsuario', async (req, res) => {
 router.get('/terraza/:idUsuario', async (req, res) => {
     try {
         const rows = await getByTerrazaId(req.params.idUsuario);
-        if (rows) {
-            res.json({ rows })
+        if (rows.length !== 0) {
+            res.json(rows)
         } else {
             res.status(400).json({ ERROR: 'Esta terraza no ha sido puntuada por ningún usuario' })
         }
