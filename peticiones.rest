@@ -94,5 +94,38 @@ Content-Type: application/json
 GET http://localhost:3000/api/puntuaciones/usuario/64
 
 ###
-# getByUserId
+# getByTerrazaId
 GET http://localhost:3000/api/puntuaciones/terraza/7
+
+
+###
+# create
+POST http://localhost:3000/api/puntuaciones
+Content-Type: application/json
+
+{
+    "puntuacion": 2,
+    "idUsuario": 64,
+    "idTerraza": 33
+}
+
+###
+# delete
+DELETE http://localhost:3000/api/puntuaciones
+Content-Type: application/json
+
+{
+    "idUsuario": 64,
+    "idTerraza": 33
+}
+
+###
+# update
+PUT  http://localhost:3000/api/puntuaciones
+Content-Type: application/json
+
+{
+    "puntuacion": 5,
+    "idUsuario": 64,
+    "idTerraza": 33
+}
