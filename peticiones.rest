@@ -110,7 +110,7 @@ GET http://localhost:3000/api/puntuaciones/terraza/7
 
 ###
 # create
-POST http://localhost:3000/api/puntuaciones
+POST http://localhost:3000/api/puntuaciones/create
 Content-Type: application/json
 
 {
@@ -121,7 +121,7 @@ Content-Type: application/json
 
 ###
 # delete
-DELETE http://localhost:3000/api/puntuaciones
+DELETE http://localhost:3000/api/puntuaciones/delete
 Content-Type: application/json
 
 {
@@ -131,7 +131,7 @@ Content-Type: application/json
 
 ###
 # update
-PUT  http://localhost:3000/api/puntuaciones
+PUT  http://localhost:3000/api/puntuaciones/update
 Content-Type: application/json
 
 {

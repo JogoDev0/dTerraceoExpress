@@ -30,7 +30,7 @@ router.get('/terraza/:idUsuario', async (req, res) => {
 });
 
 // Poner puntuación a la terraza
-router.post('/', async (req, res) => {
+router.post('/create', async (req, res) => {
     try {
         await create(req.body.puntuacion, req.body.idUsuario, req.body.idTerraza);
         res.json({ SUCCESS: 'Terraza puntuada correctamente' });
@@ -40,7 +40,7 @@ router.post('/', async (req, res) => {
 });
 
 // Borrar puntuación de la terraza
-router.delete('/', async (req, res) => {
+router.delete('/delete', async (req, res) => {
     try {
         await remove(req.body.idUsuario, req.body.idTerraza);
         res.json({ SUCCESS: 'Puntuación de la terraza borrada correctamente' });
@@ -50,7 +50,7 @@ router.delete('/', async (req, res) => {
 });
 
 // Actualizar puntuación de la terraza
-router.put('/', async (req, res) => {
+router.put('/update', async (req, res) => {
     try {
         const result = await update(req.body);
         if (result['affectedRows'] === 1) {
