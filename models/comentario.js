@@ -1,6 +1,6 @@
-const getByUserId = (idUsuario) => {
+const getByTerrazaId = (idTerraza) => {
     return new Promise((resolve, reject) => {
-        db.query('SELECT * FROM comentarios WHERE fk_usuario = ?', [idUsuario], (err, rows) => {
+        db.query('SELECT * FROM comentarios WHERE fk_terraza = ?', [idTerraza], (err, rows) => {
             if (err) {
                 return reject(err);
             }
@@ -42,7 +42,7 @@ const remove = (id_comentario) => {
     });
 };
 
-const update = (comentario, id_comentario) => {
+const patch = (comentario, id_comentario) => {
     return new Promise((resolve, reject) => {
         db.query('UPDATE comentarios SET comentario=? WHERE id_comentario=?', [comentario, id_comentario], (err, result) => {
             if (err) {
@@ -53,4 +53,4 @@ const update = (comentario, id_comentario) => {
     });
 };
 
-module.exports = { getByUserId, getByUserAndTerraza, create, remove, update }
+module.exports = { getByTerrazaId, getByUserAndTerraza, create, remove, patch }

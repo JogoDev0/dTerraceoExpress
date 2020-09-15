@@ -9,6 +9,17 @@ const getByUserId = (idUsuario) => {
     });
 };
 
+const getByTerrazaId = (idTerraza) => {
+    return new Promise((resolve, reject) => {
+        db.query('SELECT fk_terraza FROM favoritos WHERE fk_terraza = ?', [idTerraza], (err, rows) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+};
+
 const getByUserAndTerraza = (idUsuario, idTerraza) => {
     return new Promise((resolve, reject) => {
         db.query('SELECT * FROM favoritos WHERE fk_usuario = ? AND fk_terraza = ?', [idUsuario, idTerraza], (err, rows) => {
@@ -42,4 +53,4 @@ const remove = (idUsuario, idTerraza) => {
     });
 };
 
-module.exports = { getByUserId, getByUserAndTerraza, create, remove }
+module.exports = { getByUserId, getByTerrazaId, getByUserAndTerraza, create, remove }

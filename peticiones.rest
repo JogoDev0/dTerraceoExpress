@@ -65,6 +65,15 @@ Content-Type: application/json
 GET http://localhost:3000/api/favoritos/1
 
 ###
+# getByTerrazaId
+POST http://localhost:3000/api/favoritos/terraza
+Content-Type: application/json
+
+ {
+    "idTerraza": "712"
+  }
+
+###
 # getByUserAndTerraza
 POST http://localhost:3000/api/favoritos/getAll
 Content-Type: application/json
@@ -76,7 +85,17 @@ Content-Type: application/json
 
 ###
 # create
-POST http://localhost:3000/api/favoritos
+POST http://localhost:3000/api/favoritos/create
+Content-Type: application/json
+
+ {
+    "idUsuario": "63",
+    "idTerraza": "712"
+  }
+
+###
+# delete
+POST  http://localhost:3000/api/favoritos/delete
 Content-Type: application/json
 
  {
@@ -85,11 +104,49 @@ Content-Type: application/json
   }
 
 ###
-# delete
-DELETE  http://localhost:3000/api/favoritos
+### COMENTARIOS ###
+###
+
+###
+# getByTerrazaId
+GET http://localhost:3000/api/comentarios/712
+
+###
+# getByUserAndTerraza
+POST http://localhost:3000/api/comentarios/getAll
 Content-Type: application/json
 
  {
-    "idUsuario": "63",
-    "idTerraza": "33"
+    "idUsuario": "1",
+    "idTerraza": "2336"
+  }
+
+###
+# create
+POST http://localhost:3000/api/comentarios/create
+Content-Type: application/json
+
+ {
+    "idUsuario": "1",
+    "idTerraza": "712",
+    "comentario": "F en el chat"
+  }
+
+###
+# delete
+POST  http://localhost:3000/api/comentarios/delete
+Content-Type: application/json
+
+ {
+    "id_comentario": "7"
+  }
+
+###
+# patch
+PATCH  http://localhost:3000/api/comentarios
+Content-Type: application/json
+
+ {
+   "comentario": "Angular es muy intuitivo.",
+   "id_comentario": "6"
   }
