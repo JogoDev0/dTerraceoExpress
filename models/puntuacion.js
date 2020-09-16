@@ -1,3 +1,13 @@
+const getByIdUsuarioIdTerraza = (idUsuario, idTerraza) => {
+    return new Promise((resolve, reject) => {
+        db.query('SELECT * FROM puntuaciones WHERE fk_usuario = ? AND fk_terraza = ? ', [idUsuario, idTerraza], (err, rows) => {
+            if (err) return reject(err);
+            resolve(rows);
+        });
+    });
+}
+
+
 const getByUserId = (idUsuario) => {
     return new Promise((resolve, reject) => {
         db.query('SELECT fk_terraza, puntuacion FROM puntuaciones WHERE fk_usuario = ?', [idUsuario], (err, rows) => {
@@ -25,18 +35,10 @@ const create = (puntuacion, idUsuario, idTerraza) => {
     });
 }
 
-const remove = (idUsuario, idTerraza) => {
-    return new Promise((resolve, reject) => {
-        db.query('DELETE FROM puntuaciones WHERE fk_usuario = ? AND fk_terraza = ?', [idUsuario, idTerraza], (err, result) => {
-            if (err) return reject(err);
-            resolve(result);
-        });
-    });
-}
 
-const update = ({ puntuacion, idUsuario, idTerraza }) => {
+const update = (puntuacion, id_puntuacion) => {
     return new Promise((resolve, reject) => {
-        db.query('UPDATE puntuaciones SET puntuacion=? WHERE fk_usuario=? AND fk_terraza=? ', [puntuacion, idUsuario, idTerraza], (err, result) => {
+        db.query('UPDATE puntuaciones SET puntuacion=? WHERE id_puntuacion=? ', [puntuacion, id_puntuacion], (err, result) => {
             if (err) return reject(err);
             resolve(result);
         });
@@ -48,6 +50,6 @@ module.exports = {
     getByUserId,
     getByTerrazaId,
     create,
-    remove,
-    update
+    update,
+    getByIdUsuarioIdTerraza
 }
