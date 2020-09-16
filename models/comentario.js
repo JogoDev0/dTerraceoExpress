@@ -1,6 +1,6 @@
 const getByTerrazaId = (idTerraza) => {
     return new Promise((resolve, reject) => {
-        db.query('SELECT * FROM comentarios WHERE fk_terraza = ?', [idTerraza], (err, rows) => {
+        db.query('SELECT * FROM comentarios c JOIN usuarios u ON c.fk_usuario = u.id_usuario WHERE fk_terraza = ?', [idTerraza], (err, rows) => {
             if (err) {
                 return reject(err);
             }
