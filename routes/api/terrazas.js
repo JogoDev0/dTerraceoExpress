@@ -4,7 +4,6 @@ const utm = require('utm');
 const geo = require('node-geo-distance');
 const CERCA_DE_MI = 250;
 const axios = require('axios');
-const { log } = require('debug');
 
 router.post('/', async (req, res) => {
     try {
@@ -49,7 +48,7 @@ router.get('/name/:terrazaName', async (req, res) => {
             }
             res.json(rows);
         } else {
-            res.status(404).json({ error: 'No se han encontrado terrazas con ese nombre' });
+            res.json({ error: 'No se han encontrado terrazas con ese nombre' });
         }
 
     } catch (err) {
@@ -67,7 +66,7 @@ router.post('/id/:terrazaId', async (req, res) => {
             row.googlePlacesData = await getGooglePlacesData(row);
             res.json(row);
         } else {
-            res.status(404).json({ error: 'No se han encontrado terrazas con ese nombre' });
+            res.json({ error: 'No se han encontrado terrazas con ese nombre' });
         }
 
     } catch (err) {
@@ -87,7 +86,7 @@ router.post('/barrio/:terrazaBarrio', async (req, res) => {
             rows.sort(ordenarResultado('distancia'));
             res.json(rows);
         } else {
-            res.status(404).json({ error: 'No se han encontrado terrazas con ese nombre' });
+            res.json({ error: 'No se han encontrado terrazas con ese nombre' });
         }
 
     } catch (err) {
@@ -107,7 +106,7 @@ router.post('/calle/:terrazaCalle', async (req, res) => {
             rows.sort(ordenarResultado('desc_nombre'));
             res.json(rows);
         } else {
-            res.status(404).json({ error: 'No se han encontrado terrazas con ese nombre' });
+            res.json({ error: 'No se han encontrado terrazas con ese nombre' });
         }
 
     } catch (err) {
