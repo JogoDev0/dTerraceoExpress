@@ -7,7 +7,7 @@ router.get('/:idTerraza', async (req, res) => {
         if (rows) {
             res.json(rows);
         } else {
-            res.status(400).json({ NONE: 'No se han encontrado comentarios para esa terraza.' });
+            res.json({ NONE: 'No se han encontrado comentarios para esa terraza.' });
         }
 
     } catch (err) {

@@ -7,7 +7,7 @@ router.get('/:idUsuario', async (req, res) => {
         if (rows) {
             res.json(rows);
         } else {
-            res.status(400).json({ ERROR: 'No se han encontrado favoritos para ese perfil de usuario.' });
+            res.json({ ERROR: 'No se han encontrado favoritos para ese perfil de usuario.' });
         }
 
     } catch (err) {
