@@ -151,6 +151,7 @@ Content-Type: application/json
    "id_comentario": "6"
   }
 
+
 ###
 ### PUNTUACIONES ###
 ###
@@ -159,30 +160,31 @@ Content-Type: application/json
 GET http://localhost:3000/api/puntuaciones/usuario/64
 ###
 # getByTerrazaId
-GET http://localhost:3000/api/puntuaciones/terraza/7
+POST http://localhost:3000/api/puntuaciones/terraza
+Content-Type: application/json
+
+{
+  "idTerraza": 2385
+}
 ###
+
+
+
 # create
 POST http://localhost:3000/api/puntuaciones/create
 Content-Type: application/json
+
 {
-    "puntuacion": 2,
-    "idUsuario": 64,
-    "idTerraza": 33
+    "puntuacion": 1,
+    "idUsuario": 63,
+    "idTerraza": 2385
 }
+
 ###
-# delete
-DELETE http://localhost:3000/api/puntuaciones/delete
+POST http://localhost:3000/api/puntuaciones/puntuacion
 Content-Type: application/json
+
 {
-    "idUsuario": 64,
-    "idTerraza": 33
-}
-###
-# update
-PUT  http://localhost:3000/api/puntuaciones/update
-Content-Type: application/json
-{
-    "puntuacion": 5,
-    "idUsuario": 64,
-    "idTerraza": 33
+  "idUsuario": 64,
+  "idTerraza": 2385
 }
