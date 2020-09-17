@@ -9,7 +9,7 @@ router.get('/usuario/:idUsuario', async (req, res) => {
         if (rows.length !== 0) {
             res.json(rows)
         } else {
-            res.status(400).json({ ERROR: 'Este usuario no ha puntuado ninguna terraza' });
+            res.json({ ERROR: 'Este usuario no ha puntuado ninguna terraza' });
         }
     } catch (err) {
         res.status(500).json({ ERROR: err.message });
@@ -23,7 +23,7 @@ router.post('/terraza', async (req, res) => {
         if (rows.length !== 0) {
             res.json(rows)
         } else {
-            res.status(400).json({ ERROR: 'Esta terraza no ha sido puntuada por ningún usuario' });
+            res.json([]);
         }
     } catch (err) {
         res.status(500).json({ ERROR: err.message });
@@ -48,7 +48,6 @@ router.post('/create', async (req, res) => {
 
 // Conseguir puntuación de la terraza por Id Usuario e Id Terraza
 router.post('/puntuacion', async (req, res) => {
-    console.log(req.body);
     const rows = await getByIdUsuarioIdTerraza(req.body.idUsuario, req.body.idTerraza);
     res.json(rows);
 });
