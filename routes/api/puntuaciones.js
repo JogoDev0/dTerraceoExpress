@@ -17,9 +17,9 @@ router.get('/usuario/:idUsuario', async (req, res) => {
 });
 
 // Conseguir usuario y puntuación por id de terraza
-router.get('/terraza/:idUsuario', async (req, res) => {
+router.post('/terraza', async (req, res) => {
     try {
-        const rows = await getByTerrazaId(req.params.idUsuario);
+        const rows = await getByTerrazaId(req.body.idTerraza);
         if (rows.length !== 0) {
             res.json(rows)
         } else {

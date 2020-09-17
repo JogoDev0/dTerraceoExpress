@@ -160,8 +160,14 @@ Content-Type: application/json
 GET http://localhost:3000/api/puntuaciones/usuario/64
 ###
 # getByTerrazaId
-GET http://localhost:3000/api/puntuaciones/terraza/7
+POST http://localhost:3000/api/puntuaciones/terraza
+Content-Type: application/json
+
+{
+  "idTerraza": 2385
+}
 ###
+
 
 
 # create
