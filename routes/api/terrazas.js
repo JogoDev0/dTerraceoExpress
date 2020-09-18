@@ -40,15 +40,16 @@ router.get('/barrios', async (req, res) => {
 router.get('/name/:terrazaName', async (req, res) => {
     try {
         const rows = await getByName(req.params.terrazaName);
+        console.log(rows);
 
-        if (rows) {
+        if (rows.length !== 0) {
             for (const row of rows) {
                 // Puede haber más de una terraza con el mismo nombre, así que se añade un nuevo campo a mostrar en el buscador antes de enviar la respuesta, con el nombre de la terraza y el nombre de la calle:
                 row.mostrarEnBusqueda = `${row.rotulo} - ${row.desc_nombre}`;
             }
             res.json(rows);
         } else {
-            res.json({ error: 'No se han encontrado terrazas con ese nombre' });
+            res.json(rows);
         }
 
     } catch (err) {
@@ -104,6 +105,20 @@ router.post('/calle/:terrazaCalle', async (req, res) => {
                 row.distancia = calcularDistancia(posicionActual, row);
             }
             rows.sort(ordenarResultado('desc_nombre'));
+            res.json(rows);
+        } else {
+            res.json({ error: 'No se han encontrado terrazas con ese nombre' });
+        }
+
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+router.post('/calle', async (req, res) => {
+    try {
+        const rows = await getByCalle(req.body.calle);
+        if (rows) {
             res.json(rows);
         } else {
             res.json({ error: 'No se han encontrado terrazas con ese nombre' });

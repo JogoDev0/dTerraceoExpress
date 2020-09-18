@@ -19,6 +19,14 @@ Content-Type: application/json
     "longitude":-3.6909735773410772
 }
 
+###
+POST http://localhost:3000/api/terrazas/calle
+Content-Type: application/json
+
+{
+    "calle": "asdfg"
+}
+
 
 ###
 ### USUARIOS ###
