@@ -98,6 +98,7 @@ router.get('/', async (req, res) => {
 const createToken = (pUser) => {
     const payload = {
         userId: pUser.id_usuario,
+        username: pUser.username,
         createdAt: moment().unix(),
         expiredAt: moment().add(10, 'days').unix()
     }
