@@ -144,6 +144,8 @@ const addStreetView = (row) => {
         row.streetView = `https://maps.googleapis.com/maps/api/streetview?size=640x400&location=${cords.latitude},${cords.longitude}&fov=90&source=outdoor&pitch=0&key=${process.env.GOOGLE_API_KEY}`;
     }
     else {
+        row.coordenada_x_local = 40.416796;
+        row.coordenada_y_local = -3.703827;
         row.streetView = '../../assets/no-imagen.jpg';
     }
 };
@@ -211,11 +213,6 @@ const calcularDistancia = (posicionActual, row) => {
             latitude: row.coordenada_x_local,
             longitude: row.coordenada_y_local
         }
-        // const distancia = geo.haversine(posicionActual, posicionTerraza, function (dist) {
-        //     return dist;
-        // });
-        // console.log(posicionActual);
-        // console.log(posicionTerraza);
         const distancia = parseInt(geo.haversineSync(posicionActual, posicionTerraza));
         return distancia;
     }
@@ -253,9 +250,7 @@ function getCleanedString(cadena) {
         cadena = cadena.replace(/\,/gi, "");
         cadena = cadena.replace(/\ /gi, "");
     }
-    // if (espacios === "sinEspacios") {
-    //     cadena = cadena.replace(/\ /gi, "");
-    // }
+
     cadena = cadena.replace(/á/gi, "a");
     cadena = cadena.replace(/é/gi, "e");
     cadena = cadena.replace(/í/gi, "i");
